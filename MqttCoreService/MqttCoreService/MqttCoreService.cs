@@ -1,10 +1,4 @@
-﻿//-----------------------------------------------------------------------
-// <copyright file="MqttCoreService.cs" company="Beckhoff Automation GmbH & Co. KG">
-//     Copyright (c) Beckhoff Automation GmbH & Co. KG. All Rights Reserved.
-// </copyright>
-//-----------------------------------------------------------------------
-
-using System;
+﻿using System;
 using TcHmiSrv.Core;
 using TcHmiSrv.Core.General;
 using TcHmiSrv.Core.Listeners;
@@ -16,19 +10,6 @@ namespace MqttCoreService
     public class MqttCoreService : IServerExtension
     {
         private readonly RequestListener requestListener = new RequestListener();
-
-        /*
-        GETTING STARTED
-
-        The recommended way to get started is to look at a few of the sample extensions that are available on GitHub:
-        https://github.com/Beckhoff/TF2000_Server_Samples
-
-        The full documentation for the extension API can be found in the Beckhoff Information System:
-        https://infosys.beckhoff.com/english.php?content=../content/1033/te2000_tc3_hmi_engineering/10591698827.html
-
-        An offline version of this documentation is available at this path:
-        %TWINCAT3DIR%..\Functions\TE2000-HMI-Engineering\Infrastructure\TcHmiServer\docs\TcHmiSrvExtNet.Core.Documentation.chm
-        */
 
         // Called after the TwinCAT HMI server loaded the server extension.
         public ErrorValue Init()

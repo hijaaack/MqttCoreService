@@ -1,11 +1,49 @@
 {
-  "$schema": "ExtensionSettings.Schema.json",
-  "guid": "9e57a907-0493-46e8-8820-74d874ae4d00",
-  "version": "1.0.0.0",
-  "configVersion": "1.0.0.0",
-  "policies": [
-    "StrictPropertyValidation",
-    "StrictConfigListenerFilter"
-  ],
-  "symbols": {}
+    "$schema": "ExtensionSettings.Schema.json",
+    "guid": "9e57a907-0493-46e8-8820-74d874ae4d00",
+    "version": "1.0.0.0",
+    "configVersion": "1.0.0.0",
+    "policies": [
+        "StrictPropertyValidation",
+        "StrictConfigListenerFilter"
+    ],
+    "symbols": {
+        "Publish": {
+            "description": "Publish mqtt message",
+            "readValue": {
+                "function": true
+            },
+            "writeValue": {
+                "type": "object",
+                "properties": {
+                    "topic": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "topic",
+                    "message"
+                ]
+            },
+            "hidden": false
+        },
+        "ListSymbols": {
+            "readValue": {
+                "function": true
+            }
+        },
+        "GetDefinitions": {
+            "readValue": {
+                "function": true
+            }
+        },
+        "GetSchema": {
+            "readValue": {
+                "function": true
+            }
+        }
+    }
 }

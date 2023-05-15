@@ -1,4 +1,62 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
-  "type": "object"
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "definitions": {
+        "stringNotEmpty": {
+            "type": "string",
+            "minLength": 1
+        },
+        "topicName": {
+            "allOf": [
+                {
+                    "$ref": "#/definitions/stringNotEmpty"
+                }
+            ]
+        },
+        "list": {
+            "description": "Add your MQTT topic subscriptions here. Each topic will dynamically generate a new symbol in the extension.",
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/topicName"
+            }
+        }
+    },
+    "properties": {
+        "MQTTServer": {
+            "type": "string",
+            "default": "localhost",
+            "description": "A string that contains the name or IP address of the MQTT broker.",
+            "propertyOrder": 1
+        },
+        "Port": {
+            "type": "integer",
+            "default": 1883,
+            "description": "The port number on the MQTT broker. The default value is 1883.",
+            "propertyOrder": 2
+        },
+        "Username": {
+            "type": "string",
+            "default": "",
+            "description": "Credential username used for connecting to the MQTT broker.",
+            "propertyOrder": 3
+        },
+        "Password": {
+            "type": "string",
+            "default": "",
+            "description": "Credential password used for connecting to the MQTT broker.",
+            "propertyOrder": 4
+        },
+        "topics": {
+            "$ref": "#/definitions/list",
+            "propertyOrder": 5
+        }
+    },
+    "required": [
+        "MQTTServer",
+        "Port",
+        "Username",
+        "Password",
+        "topics"
+    ],
+    "additionalProperties": false
 }
