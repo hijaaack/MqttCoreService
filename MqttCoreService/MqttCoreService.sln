@@ -3,18 +3,32 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.33529.622
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MqttCoreService", "MqttCoreService\MqttCoreService.csproj", "{9E57A907-0493-46E8-8820-74D874AE4D00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MqttCoreService", "MqttCoreService\MqttCoreService.csproj", "{9E57A907-0493-46E8-8820-74D874AE4D00}"
+EndProject
+Project("{FE7A1B72-C5B7-4D7C-BB7D-76384D4DE8E1}") = "TcHmiProject1", "TcHmiProject1\TcHmiProject1.hmiproj", "{E94C78E2-80CB-43C4-AAC1-B75D74B65F3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|TwinCAT HMI = Debug|TwinCAT HMI
 		Release|Any CPU = Release|Any CPU
+		Release|TwinCAT HMI = Release|TwinCAT HMI
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9E57A907-0493-46E8-8820-74D874AE4D00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E57A907-0493-46E8-8820-74D874AE4D00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E57A907-0493-46E8-8820-74D874AE4D00}.Debug|TwinCAT HMI.ActiveCfg = Debug|Any CPU
+		{9E57A907-0493-46E8-8820-74D874AE4D00}.Debug|TwinCAT HMI.Build.0 = Debug|Any CPU
 		{9E57A907-0493-46E8-8820-74D874AE4D00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E57A907-0493-46E8-8820-74D874AE4D00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E57A907-0493-46E8-8820-74D874AE4D00}.Release|TwinCAT HMI.ActiveCfg = Release|Any CPU
+		{9E57A907-0493-46E8-8820-74D874AE4D00}.Release|TwinCAT HMI.Build.0 = Release|Any CPU
+		{E94C78E2-80CB-43C4-AAC1-B75D74B65F3F}.Debug|Any CPU.ActiveCfg = Debug|TwinCAT HMI
+		{E94C78E2-80CB-43C4-AAC1-B75D74B65F3F}.Debug|TwinCAT HMI.ActiveCfg = Debug|TwinCAT HMI
+		{E94C78E2-80CB-43C4-AAC1-B75D74B65F3F}.Debug|TwinCAT HMI.Build.0 = Debug|TwinCAT HMI
+		{E94C78E2-80CB-43C4-AAC1-B75D74B65F3F}.Release|Any CPU.ActiveCfg = Release|TwinCAT HMI
+		{E94C78E2-80CB-43C4-AAC1-B75D74B65F3F}.Release|TwinCAT HMI.ActiveCfg = Release|TwinCAT HMI
+		{E94C78E2-80CB-43C4-AAC1-B75D74B65F3F}.Release|TwinCAT HMI.Build.0 = Release|TwinCAT HMI
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

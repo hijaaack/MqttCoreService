@@ -13,6 +13,7 @@ using TcHmiSrv.Core.Tools.Json.Newtonsoft;
 using TcHmiSrv.Core.Listeners.ConfigListenerEventArgs;
 using TcHmiSrv.Core.Listeners.RequestListenerEventArgs;
 using TcHmiSrv.Core.Listeners.ShutdownListenerEventArgs;
+using System.Text.RegularExpressions;
 
 namespace MqttCoreService
 {
@@ -25,8 +26,8 @@ namespace MqttCoreService
         private readonly ConfigListener _configListener = new ConfigListener();
         private readonly DynamicSymbolsProvider _symbolProvider = new DynamicSymbolsProvider();
 
-        private MqttCoreTask _mqttCoreTask = new MqttCoreTask();
-        private List<string> _topics = new List<string>();
+        private readonly MqttCoreTask _mqttCoreTask = new MqttCoreTask();
+        private readonly List<string> _topics = new List<string>();
         #endregion FIELDS
 
         #region EVENTS 
@@ -42,7 +43,7 @@ namespace MqttCoreService
             _shutdownListener.OnShutdown += OnShutdown;
             _configListener.OnChange += OnChange;
 
-            //set up the config listener
+            //set up the config listener for all parameters
             var settings = new ConfigListenerSettings();
             var filter = new ConfigListenerSettingsFilter(
                 ConfigChangeType.OnChange, new string[] { "*" }
@@ -171,6 +172,7 @@ namespace MqttCoreService
         #endregion EVENTS
 
         #region METHODS
+
         // Called when the client make a change to the topics in the server configuration page.
         private void CreateDynamicSymbols(List<string> addList, List<string> removeList)
         {
@@ -183,9 +185,17 @@ namespace MqttCoreService
                 }
                 foreach (var item in _topics)
                 {
-                    _symbolProvider.AddOrUpdate(item.ToString(), new MqttSubscribeTopicSymbol(new TopicObject { TopicName = item.ToString() }));
+                    if (Regex.IsMatch(item, "[+#]"))
+                    {
+                        _symbolProvider.AddOrUpdate(item.ToString(), new MqttSubscribeWildcardTopicSymbol(new WildcardObject { WildcardTopic = item.ToString() }));
+                    }
+                    else
+                    {
+                        //MqttSubscribeTopicSymbolT
+                        //_symbolProvider.AddOrUpdate(item.ToString(), new MqttSubscribeTopicSymbolT(new TopicObject { TopicName = item.ToString() }));
+                        _symbolProvider.AddOrUpdate(item.ToString(), new MqttSubscribeTopicSymbol(new TopicObject { TopicName = item.ToString() }));
+                    }                    
                 }
-
                 //Log
                 TcHmiAsyncLogger.Send(Severity.Info, "ADD_SYMBOLS", "");
             }
