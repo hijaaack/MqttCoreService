@@ -39,6 +39,7 @@ namespace MqttCoreService
             // breakpoint to the attached debugger in Init
             //TcHmiApplication.AsyncDebugHost.WaitForDebugger(true);
 
+            //set up event listeners
             _requestListener.OnRequest += OnRequest;
             _shutdownListener.OnShutdown += OnShutdown;
             _configListener.OnChange += OnChange;
@@ -188,16 +189,17 @@ namespace MqttCoreService
                     if (Regex.IsMatch(item, "[+#]"))
                     {
                         _symbolProvider.AddOrUpdate(item.ToString(), new MqttSubscribeWildcardTopicSymbol(new WildcardObject { WildcardTopic = item.ToString() }));
+                        //Log
+                        TcHmiAsyncLogger.Send(Severity.Info, "ADD_SYMBOLS", new string[] { item.ToString() });
                     }
                     else
                     {
-                        //MqttSubscribeTopicSymbolT
-                        //_symbolProvider.AddOrUpdate(item.ToString(), new MqttSubscribeTopicSymbolT(new TopicObject { TopicName = item.ToString() }));
                         _symbolProvider.AddOrUpdate(item.ToString(), new MqttSubscribeTopicSymbol(new TopicObject { TopicName = item.ToString() }));
+                        //Log
+                        TcHmiAsyncLogger.Send(Severity.Info, "ADD_SYMBOLS", new string[] { item.ToString() });
                     }                    
                 }
-                //Log
-                TcHmiAsyncLogger.Send(Severity.Info, "ADD_SYMBOLS", "");
+
             }
             else if (removeList.Count > 0)
             {
@@ -209,16 +211,15 @@ namespace MqttCoreService
                         {
                             _topics.Remove(item.ToString());
                             _symbolProvider.Remove(item.ToString());
+                            //Log
+                            TcHmiAsyncLogger.Send(Severity.Info, "REMOVE_SYMBOLS", new string[] { item.ToString() });
                         }
                         catch (Exception ex)
                         {
                             Debug.WriteLine(ex.Message);
                         }
-
                     }
                 }
-                //Log
-                TcHmiAsyncLogger.Send(Severity.Info, "REMOVE_SYMBOLS", "");
             }
 
             //Set up subscriber

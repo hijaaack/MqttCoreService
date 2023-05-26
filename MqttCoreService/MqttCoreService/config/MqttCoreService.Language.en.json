@@ -1,6 +1,12 @@
 {
   "$schema": "Language.Schema.json",
   "locale": "en",
-  "localizedText": {
-  }
+    "localizedText": {
+        "EXTENSION_INIT": "Init of the server extension.",
+        "EXTENSION_SHUTDOWN": "Server extension shutdown.",
+        "NEW_CONFIG": "New configuration has been stored in parameter: {0}",
+
+        "ADD_SYMBOLS": "New symbol available to be mapped: {0}",
+        "REMOVE_SYMBOLS": "Removed symbol: {0}"
+    }
 }
