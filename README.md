@@ -22,7 +22,7 @@ Created with [MQTTnet](https://github.com/dotnet/MQTTnet)
 
 The package consists of a service configuration window;
 
-![enter image description here](https://github.com/hijaaack/images/assets/75740551/d334e35f-a9e5-4bdf-93f9-a53ab0fb9195)
+![enter image description here](https://i.imgur.com/1H6m3j3.png)
 
 Publish method is available under the HMI Configuration window. This function can be called with javascript. 
 
@@ -30,7 +30,7 @@ For every single topic subscription a symbol will dynamically be created of the 
 
 For every single wildcard subscription a symbol will dynamically be created of the type WildcardObject. The WildcardObject is an dynamic array of the type TopicObject. 
 
-![enter image description here](https://github.com/hijaaack/images/assets/75740551/e3106cbb-2b94-4571-920a-966766a566af)
+![enter image description here](https://i.imgur.com/TfrEyZC.png)
 
 ## Prerequisites
 
