@@ -23,7 +23,6 @@ namespace MqttCoreService
     internal class TopicObject
     {
         public string TopicName { get; set; }
-        //Possible to change TopicData to "OBJECT"? 
         public string TopicData { get; set; }
         public TopicObject()
         {
@@ -41,7 +40,6 @@ namespace MqttCoreService
     {
         public string WildcardTopic { get; set; }
         public List<TopicObject> WildcardList { get; set; }
-
         public WildcardObject()
         {
             WildcardTopic = "";
@@ -62,71 +60,14 @@ namespace MqttCoreService
         public static List<WildcardObject> WildcardObjectList = new List<WildcardObject>();
     }
 
-    //TEST CLASS FOR TRYING THE JsonSchemaValue? -not used atm
-    internal class MqttSubscribeTopicSymbolT : SymbolWithValue
-    {
-        private TopicObject TopicObjects { get; }
-
-        public MqttSubscribeTopicSymbolT(TopicObject objectsValues) : base(null, SchemaValue)
-        {
-            this.TopicObjects = objectsValues;
-        }
-
-        private static JsonSchemaValue SchemaValue { get; } = JsonType();
-        private static JsonSchemaValue JsonType()
-        {
-            string jsonString =
-                 @"{
-                    ""type"": ""object"",
-                        ""properties"": {
-                            ""TopicData"": {
-                                ""$ref"": ""tchmi:general#/definitions/Object""
-                            },
-			                ""TopicName"": {
-                                ""$ref"": ""tchmi:general#/definitions/String""
-                            }
-                        }
-                }";
-            JToken token = JToken.Parse(jsonString);
-            Type type = token.GetType();
-            JSchemaGenerator generator = new JSchemaGenerator();
-            JSchema schema = generator.Generate(type);
-            Debug.WriteLine(schema.ToString());
-            return new JsonSchemaValue(schema);
-        }
-
-        private static Value MqttSubscribeTopicAsValue(TopicObject objects)
-        {
-            //find data from list
-            var item = TopicObjectListData.TopicObjectList.FirstOrDefault(o => o.TopicName == objects.TopicName);
-            if (item != null)
-            {
-                objects.TopicData = item.TopicData;
-            }
-            //convert to json string
-            return TcHmiJsonSerializer.Deserialize<Value>(JsonConvert.SerializeObject(objects));
-        }
-
-        protected override Value Value
-        {
-            get
-            {
-                return MqttSubscribeTopicAsValue(this.TopicObjects);
-            }
-        }
-
-    }
-
     //Class used for dynamic creation of TopicObject symbols in the HMI
     internal class MqttSubscribeTopicSymbol : SymbolWithValue
     {
         private TopicObject TopicObjects { get; }
-
         public MqttSubscribeTopicSymbol(TopicObject objectsValues) : base(null, TcHmiJSchemaGenerator.DefaultGenerator.Generate(objectsValues.GetType()))
         {
             this.TopicObjects = objectsValues;
         }
-
         private static Value MqttSubscribeTopicAsValue(TopicObject objects)
         {
             //find data from list
@@ -138,7 +79,6 @@ namespace MqttCoreService
             //convert to json string
             return TcHmiJsonSerializer.Deserialize<Value>(JsonConvert.SerializeObject(objects));
         }
-
         protected override Value Value
         {
             get
@@ -146,7 +86,6 @@ namespace MqttCoreService
                 return MqttSubscribeTopicAsValue(this.TopicObjects);
             }
         }
-
     }
 
     //Class used for dynamic creation of Wildcard TopicObject symbols in the HMI
@@ -156,25 +95,6 @@ namespace MqttCoreService
 
         private static Value MqttSubscribeTopicAsValue(WildcardObject objects)
         {
-            // Finding the matching data
-            // var matchingList = TopicObjectListData.TopicObjectWildcardList
-            //     .SelectMany(innerList => innerList)
-            //     .Where(topic => objectsList
-            //     .Any(obj => obj.TopicName == topic.TopicName))
-            //     .ToList();
-
-
-
-            // if (matchingList != null)
-            // {
-            //     var objectListIndex = objectsList.FindIndex(lst1 => matchingList.Any(lst2 => lst1.TopicName == lst2.TopicName));
-            //     var matchingListIndex = matchingList.FindIndex(lst1 => objectsList.Any(lst2 => lst1.TopicName == lst2.TopicName));
-            //     if (objectListIndex != -1 && matchingListIndex != -1)
-            //     {
-            //         //Update list with new data
-            //         objectsList[objectListIndex].TopicData = matchingList[matchingListIndex].TopicData;
-            //     }
-            // }
             //find data from list
             var item = TopicObjectListData.WildcardObjectList.FirstOrDefault(o => o.WildcardTopic == objects.WildcardTopic);
             if (item != null)
@@ -185,7 +105,6 @@ namespace MqttCoreService
             //convert to json string
             return TcHmiJsonSerializer.Deserialize<Value>(JsonConvert.SerializeObject(objects));
         }
-
         protected override Value Value
         {
             get
@@ -193,7 +112,6 @@ namespace MqttCoreService
                 return MqttSubscribeTopicAsValue(this.WildcardObjects);
             }
         }
-
         public MqttSubscribeWildcardTopicSymbol(WildcardObject objects) : base(null, TcHmiJSchemaGenerator.DefaultGenerator.Generate(objects.GetType()))
         {
             this.WildcardObjects = objects;
@@ -232,14 +150,6 @@ namespace MqttCoreService
             set { _port = value; }
         }
 
-        public async Task Publish(string topic, string payload)
-        {
-            _mqttClientPub = _mqttFactoryPub.CreateMqttClient();
-            var options = OptionsBuilder();
-            await _mqttClientPub.ConnectAsync(options);
-            await PublishMessageAsync(_mqttClientPub, topic, payload);
-            await _mqttClientPub.DisconnectAsync();
-        }
         public async Task Subscribe(List<string> topics)
         {
             TopicObjectListData.TopicObjectList.Clear();
@@ -302,15 +212,6 @@ namespace MqttCoreService
         }
         private Task SubscribeTopicMessagesRetrieved(MqttApplicationMessageReceivedEventArgs arg)
         {
-            Debug.WriteLine("-----NEW MESSAGE------");
-            Debug.WriteLine("Payload: " + Encoding.UTF8.GetString(arg.ApplicationMessage.PayloadSegment));
-            Debug.WriteLine("Topic: " + arg.ApplicationMessage.Topic);
-            Debug.WriteLine("---------END-------");
-
-            //kika ifall subscribedatats topic matchar topic i wildcardlista, isf skicka in datat där, om det OCKSÅ finns i vanliga listan skicka in datat där
-            //måste kunna få match på olika scenarion av topics som topic/# topic/+/test där # och + kmr att retuneras som det riktiga topic-svaret
-            //datat in i denna funktion kmr vara som exempel topic1/test1/test2
-
             //Check if topic matches objectList
             var topicObject = TopicObjectListData.TopicObjectList.FirstOrDefault(o => o.TopicName == arg.ApplicationMessage.Topic);
             if (topicObject != null) topicObject.TopicData = Encoding.UTF8.GetString(arg.ApplicationMessage.PayloadSegment);
@@ -343,7 +244,15 @@ namespace MqttCoreService
             }
             return Task.CompletedTask;
         }
-        private static async Task PublishMessageAsync(IMqttClient client, string topic, string payload)
+        public async Task Publish(string topic, string payload)
+        {
+            _mqttClientPub = _mqttFactoryPub.CreateMqttClient();
+            var options = OptionsBuilder();
+            await _mqttClientPub.ConnectAsync(options);
+            await PublishMessageAsync(_mqttClientPub, topic, payload);
+            await _mqttClientPub.DisconnectAsync();
+        }
+        private async Task PublishMessageAsync(IMqttClient client, string topic, string payload)
         {
             Debug.WriteLine(payload);
             var message = new MqttApplicationMessageBuilder()

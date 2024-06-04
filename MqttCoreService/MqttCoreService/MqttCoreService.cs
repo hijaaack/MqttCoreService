@@ -1,19 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using TcHmiSrv.Core;
 using TcHmiSrv.Core.General;
 using TcHmiSrv.Core.Listeners;
-using TcHmiSrv.Core.Tools.Management;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using TcHmiSrv.Core.Tools.DynamicSymbols;
-using TcHmiSrv.Core.Tools.Settings;
-using System.Collections.Generic;
-using System.Linq;
-using TcHmiSrv.Core.Tools.Json.Newtonsoft;
 using TcHmiSrv.Core.Listeners.ConfigListenerEventArgs;
 using TcHmiSrv.Core.Listeners.RequestListenerEventArgs;
 using TcHmiSrv.Core.Listeners.ShutdownListenerEventArgs;
-using System.Text.RegularExpressions;
+using TcHmiSrv.Core.Tools.DynamicSymbols;
+using TcHmiSrv.Core.Tools.Json.Newtonsoft;
+using TcHmiSrv.Core.Tools.Management;
+using TcHmiSrv.Core.Tools.Settings;
 
 namespace MqttCoreService
 {
@@ -94,7 +94,7 @@ namespace MqttCoreService
                 CreateDynamicSymbols(topicAddedList, topicRemovedList);
 
                 //Log
-                //TcHmiAsyncLogger.Send(e.Context, Severity.Info, "NEW_CONFIG", new string[] { "Topics" });
+                TcHmiAsyncLogger.Send(e.Context, Severity.Info, "NEW_CONFIG", new string[] { "Topics" });
             }
             else if (e.Path.StartsWith("Password"))
             {
@@ -197,7 +197,7 @@ namespace MqttCoreService
                         _symbolProvider.AddOrUpdate(item.ToString(), new MqttSubscribeTopicSymbol(new TopicObject { TopicName = item.ToString() }));
                         //Log
                         TcHmiAsyncLogger.Send(Severity.Info, "ADD_SYMBOLS", new string[] { item.ToString() });
-                    }                    
+                    }
                 }
 
             }

@@ -9,7 +9,7 @@
 	<PropertyGroup>
 		<Company>JackB</Company>
 		<Description>-.-</Description>
-		<Copyright>Copyright © JackB 2023</Copyright>
+		<Copyright>Copyright © JackB 2024</Copyright>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -43,9 +43,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="MQTTnet" Version="4.2.0.706" />
+	  <PackageReference Include="MQTTnet" Version="4.3.6.1152" />
 	  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-	  <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.15" />
+	  <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.16" />
 	</ItemGroup>
 
 </Project>
